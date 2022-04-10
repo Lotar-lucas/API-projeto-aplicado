@@ -1,0 +1,37 @@
+{
+  "name": "control-money",
+  "version": "1.0.0",
+  "description": "projeto aplicado",
+  "main": "./src/api/server.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon .",
+    "lint": "eslint --no-inline-config --ext .js,.jsx --no-error-on-unmatched-pattern -c .eslintrc.json .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lotar-lucas/challenge-full-stack-web.git"
+  },
+  "author": "Lucas Lotar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lotar-lucas/challenge-full-stack-web/issues"
+  },
+  "homepage": "https://github.com/Lotar-lucas/challenge-full-stack-web#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-rescue": "^1.1.31",
+    "http-status-codes": "^2.1.4",
+    "joi": "^17.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "nodemon": "^2.0.13"
+  }
+}
