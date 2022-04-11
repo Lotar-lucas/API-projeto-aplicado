@@ -15,6 +15,8 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
-// app.use('/students', studentsRoutes);
+app.use('/users', usersRoutes);
+app.use('/financialValuesRoutes', financialValuesRoutes);
+
 
 module.exports = app;
