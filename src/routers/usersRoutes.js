@@ -1,6 +1,6 @@
 const express = require('express');
 
-const userController = require('../controllers/studentController');
+const userController = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router.delete('/delete', userController.excludeUser);
 
 router.get('/:id', userController.getUser);
 
-router.get('/', userController.getAllStudents);
+router.get('/', userController.getAllUsers);
 
 module.exports = router;
