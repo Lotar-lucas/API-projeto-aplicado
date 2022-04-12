@@ -5,4 +5,4 @@ const {
   PORT
 } = process.env;
 
-app.listen(3001, () => console.log('Rodando na porta 3001'));
+app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));

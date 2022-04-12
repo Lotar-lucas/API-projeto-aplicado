@@ -4,24 +4,24 @@ const {
 const usersServices = require('../services/usersServices');
 
 
-// const getAllUsers = async (_req, res) => {
-//   try {
-
-//     const students = await usersServices.getAll();
-
-//     return res.status(StatusCodes.OK).json(students);
-//   } catch (error) {
-
-//     return res.status(500).json({
-//       error: error.message
-//     });
-//   }
-// };
-
-const getUser = async (_req, res) => {
+const getAllUsers = async (_req, res) => {
   try {
 
-    const students = await usersServices.getUserId();
+    const students = await usersServices.getAll();
+
+    return res.status(StatusCodes.OK).json(students);
+  } catch (error) {
+
+    return res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+
+    const students = await usersServices.getUserId(req.params.id);
 
     return res.status(StatusCodes.OK).json(students);
   } catch (error) {
@@ -34,7 +34,9 @@ const getUser = async (_req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const response = await usersServices.createUser(req.params, req.body);
+
+
+    const response = await usersServices.createUser(req.body);
 
     if (response.isError) {
 
@@ -58,7 +60,7 @@ const updateUser = async (req, res) => {
 
   try {
 
-    const response = await usersServices.editUser(req.params, req.body);
+    const response = await usersServices.editUser(req.params.id, req.body);
 
     if (response.isError) {
       return res.status(response.code).json({

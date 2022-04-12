@@ -1,3 +1,6 @@
+const {
+  use
+} = require('../routers/usersRoutes');
 const connectionFactory = require('./connectionFactory');
 const schema = require('./schema');
 
@@ -11,13 +14,23 @@ const createPersona = async (
   was_excluded
 ) => {
 
+
   const connection = schema.connectionMySQL;
 
-  connectionFactory()
-
-  return connectionFactory(connection)
+  const result = await connectionFactory(connection)
     .execute(`INSERT INTO ${connection.database}.user(name_user,age,cpf,email,phone_number,data_excluded,was_excluded) VALUES (?,?,?,?,?,?,?)`,
       [name, age, cpf, email, phone_number, data_excluded, was_excluded]);
+
+
+  const arrayUsers = await getAll()
+
+  const {
+    user_id
+  } = arrayUsers.find(user => user.cpf === cpf)
+
+  await connectionFactory(connection).execute(`INSERT INTO ${connection.database}.monetary_information(user_id) VALUES (?)`, [user_id]);
+
+  return result
 };
 
 const edit = async (
@@ -31,16 +44,31 @@ const edit = async (
   id
 ) => {
 
+
   const connection = schema.connectionMySQL;
 
-  return connectionFactory(connection)
-    .execute('UPDATE user SET name_user=?, age=?, email=?, cpf=?, email=?, phone_number=?, data_excluded=?, was_excluded=? WHERE user_id =?', [name, age, cpf, email, phone_number, data_excluded, was_excluded, id]);
+  const a = await connectionFactory(connection)
+    .execute(`UPDATE user SET name_user=?,age=?,cpf=?,email=?,phone_number=?,data_excluded=?,was_excluded=? WHERE user_id=${id}`, [name, age, cpf, email, phone_number, data_excluded, was_excluded]);
+
+  console.log(a)
+  return a
 };
 
 const getAll = async () => {
   const connection = schema.connectionMySQL;
+
   const [result] = await connectionFactory(connection)
     .execute(`SELECT * FROM ${connection.database}.user`);
+
+  return result;
+};
+
+const getUserId = async (id) => {
+  const connection = schema.connectionMySQL;
+
+  const [result] = await connectionFactory(connection)
+    .execute(`SELECT * FROM ${connection.database}.user WHERE user_id=${id}`);
+
   return result;
 };
 
@@ -57,8 +85,8 @@ const exclude = async (id) => {
 
 
   const connection = schema.connectionMySQL;
-  return connectionFactory(connection)
-    .execute(`UPDATE user SET data_excluded=?, was_excluded=? FROM ${connection.database}.user WHERE user_id =?`, [dateStr, 0, id]);
+  return await connectionFactory(connection)
+    .execute(`UPDATE user SET data_excluded=?, was_excluded=? WHERE user_id =${id}`, [dateStr, 1]);
 };
 
 
@@ -68,4 +96,5 @@ module.exports = {
   getAll,
   exclude,
   edit,
+  getUserId
 };

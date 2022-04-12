@@ -4,8 +4,9 @@ const {
 const financialValuesServices = require('../services/financialValuesServices');
 
 
-const addCapital = async (req, res) => {
+const addAndUpdateCapital = async (req, res) => {
   try {
+
     const response = await financialValuesServices.addInfosFinancial(req.params.id, req.body);
 
     if (response.isError) {
@@ -27,34 +28,34 @@ const addCapital = async (req, res) => {
 };
 
 
-const updateCapital = async (req, res) => {
+// const updateCapital = async (req, res) => {
 
+//   try {
+
+//     const response = await financialValuesServices.updateInfosFinancial(req.params.id, req.body);
+
+//     if (response.isError) {
+//       return res.status(response.code).json({
+//         message: response.message
+//       });
+//     }
+
+//     return res.status(StatusCodes.OK).json({
+//       message: response.message
+//     });
+
+//   } catch (error) {
+
+//     return res.status(500).json({
+//       error: error.message
+//     });
+//   }
+// };
+
+const getUser = async (req, res) => {
   try {
 
-    const response = await financialValuesServices.updateInfosFinancial(req.params.id, req.body);
-
-    if (response.isError) {
-      return res.status(response.code).json({
-        message: response.message
-      });
-    }
-
-    return res.status(StatusCodes.OK).json({
-      message: response.message
-    });
-
-  } catch (error) {
-
-    return res.status(500).json({
-      error: error.message
-    });
-  }
-};
-
-const getAll = async (req, res) => {
-  try {
-
-    const response = await financialValuesServices.getAll(req.params.id);
+    const response = await financialValuesServices.getUser(req.params.id);
 
     if (response.isError) {
       return res.status(response.code).json({
@@ -74,7 +75,7 @@ const getAll = async (req, res) => {
 
 
 module.exports = {
-  addCapital,
-  getAll,
-  updateCapital
+  addAndUpdateCapital,
+  getUser,
+  // updateCapital
 };

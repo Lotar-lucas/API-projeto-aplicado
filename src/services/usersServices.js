@@ -6,9 +6,7 @@ const usersModels = require('../models/usersModels');
 // const { regexValidEmail } = require('../validations/regexValidEmail');
 // const { isValidStudentData } = require('../validations/isValidStudentData');
 // const { isValidRa } = require('../validations/isValidRa');
-const {
-  transformToLowerCase
-} = require('../helpers/transformToLowerCase');
+const transformToLowerCase = require('../helpers/transformToLowerCase.js');
 
 const getAll = async () => {
   const users = await usersModels.getAll();
@@ -17,10 +15,11 @@ const getAll = async () => {
   };
 };
 
-const createUser = async (ra, userData) => {
-  // if (isValidStudentData(studentData).isError) return isValidStudentData(studentData);
-  // if (isValidRa(ra).isError) return isValidRa(ra);
-  // if (regexValidEmail(studentData).isError) return regexValidEmail(studentData);
+const getUserId = async (id) => {
+  return await usersModels.getUserId(id);
+};
+
+const createUser = async (userData) => {
 
   const {
     name,
@@ -30,7 +29,7 @@ const createUser = async (ra, userData) => {
     phone_number,
     data_excluded,
     was_excluded
-  } = await transformToLowerCase(userData);
+  } = userData;
 
 
   await usersModels.createPersona(
@@ -55,7 +54,8 @@ const editUser = async (userId, userData) => {
     usersAllData
   } = await getAll();
 
-  const userAlreadyExists = usersAllData.some((student) => student.user_id === Number(userId.id));
+  const userAlreadyExists = usersAllData.some((user) => user.user_id === Number(userId));
+
 
   if (!userAlreadyExists) return {
     isError: true,
@@ -64,11 +64,6 @@ const editUser = async (userId, userData) => {
   };
 
   const {
-    id
-  } = userId;
-
-
-  const {
     name,
     age,
     cpf,
@@ -76,9 +71,10 @@ const editUser = async (userId, userData) => {
     phone_number,
     data_excluded,
     was_excluded,
-  } = await transformToLowerCase(userData);
+  } = userData;
 
-  await usersModels.edit(
+
+  const a = await usersModels.edit(
     name,
     age,
     cpf,
@@ -86,7 +82,7 @@ const editUser = async (userId, userData) => {
     phone_number,
     data_excluded,
     was_excluded,
-    id
+    Number(userId)
   );
 
   return {
@@ -97,7 +93,6 @@ const editUser = async (userId, userData) => {
 
 const excludeStudent = async (userId) => {
   const numberOfLinesAffectedInCaseOfError = 0;
-  // if (isValidRa(ra).isError) return isValidRa(ra);
 
   const {
     id
@@ -121,4 +116,5 @@ module.exports = {
   getAll,
   editUser,
   excludeStudent,
+  getUserId
 };

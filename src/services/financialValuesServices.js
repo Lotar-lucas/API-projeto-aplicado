@@ -10,11 +10,8 @@ const {
   transformToLowerCaseFinancial
 } = require('../helpers/transformToLowerCaseFinancial');
 
-const getAll = async (id) => {
-  const dataFinancialUser = await financialModels.getAll();
-  return {
-    financialAllData: [...dataFinancialUser]
-  };
+const getUser = async (id) => {
+  return await financialModels.getUser(id)
 };
 
 const addInfosFinancial = async (id, financialData) => {
@@ -25,7 +22,7 @@ const addInfosFinancial = async (id, financialData) => {
       moneyTotal = 0,
       investments = 0,
       remuneration = 0
-  } = await transformToLowerCaseFinancial(financialData);
+  } = financialData;
 
 
   await financialModels.addFinancial(
@@ -52,7 +49,7 @@ const updateInfosFinancial = async (id, financialData) => {
       moneyTotal = 0,
       investments = 0,
       remuneration = 0
-  } = await transformToLowerCase(financialData);
+  } = financialData;
 
   await financialModels.edit(
     moneyEntry,
@@ -72,6 +69,6 @@ const updateInfosFinancial = async (id, financialData) => {
 
 module.exports = {
   addInfosFinancial,
-  getAll,
+  getUser,
   updateInfosFinancial
 };

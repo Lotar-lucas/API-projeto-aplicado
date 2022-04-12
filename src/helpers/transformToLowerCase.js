@@ -11,6 +11,4 @@ const transformToLowerCase = async (userData) => {
   };
 };
 
-module.exports = {
-  transformToLowerCase
-};
+module.exports = transformToLowerCase;
